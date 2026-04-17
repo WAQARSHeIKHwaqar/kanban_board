@@ -1,1 +1,57 @@
+let draggedTask = null;
+
+// Add Task
+function addTask(status) {
+const title = prompt("Enter task title:");
+if (!title) return;
+
+```
+const task = createTaskElement(title);
+document.getElementById(getColumnId(status)).appendChild(task);
+```
+
+}
+
+// Create Task Element
+function createTaskElement(title) {
+const div = document.createElement("div");
+div.className = "task";
+div.draggable = true;
+div.innerText = title;
+
+```
+// Drag events
+div.addEventListener("dragstart", () => {
+    draggedTask = div;
+});
+
+return div;
+```
+
+}
+
+// Map status to column ID
+function getColumnId(status) {
+if (status === "Todo") return "todo";
+if (status === "In Progress") return "inprogress";
+if (status === "Done") return "done";
+}
+
+// Enable Drop Zones
+document.querySelectorAll(".task-list").forEach(list => {
+
+```
+list.addEventListener("dragover", (e) => {
+    e.preventDefault();
+});
+
+list.addEventListener("drop", () => {
+    if (draggedTask) {
+        list.appendChild(draggedTask);
+        draggedTask = null;
+    }
+});
+```
+
+});
 
